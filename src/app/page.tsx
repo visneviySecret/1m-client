@@ -5,7 +5,9 @@ import { useEffect } from "react";
 export default function Home() {
   async function getHello() {
     try {
-      const res = await fetch("https://1m-server.vercel.app/");
+      const res = await fetch(
+        "https://1m-client-git-master-egor-belousovs-projects.vercel.app/"
+      );
       // const res = await fetch("http://localhost:5000/");
       console.log("res:", res);
     } catch (e) {
