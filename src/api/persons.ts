@@ -4,6 +4,7 @@ export type Person = {
   id: number;
   age: number;
   name: string;
+  selected: boolean;
 };
 
 type GetPersonsParams = {
