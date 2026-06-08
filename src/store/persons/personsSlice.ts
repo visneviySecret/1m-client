@@ -9,6 +9,7 @@ type PersonsListState = {
   items: Person[];
   page: number;
   limit: number;
+  hasNext: boolean;
   loading: boolean;
   error: string | null;
 };
@@ -22,6 +23,7 @@ const createInitialListState = (): PersonsListState => ({
   items: [],
   page: 1,
   limit: 20,
+  hasNext: true,
   loading: false,
   error: null,
 });
@@ -56,8 +58,15 @@ const personsSlice = createSlice({
         state.unselected.error = null;
       })
       .addCase(fetchUnselectedPersons.fulfilled, (state, action) => {
+        const { page, limit } = action.meta.arg;
         state.unselected.loading = false;
-        state.unselected.items = action.payload;
+        state.unselected.page = page;
+        state.unselected.limit = limit;
+        state.unselected.hasNext = action.payload.hasNext;
+        state.unselected.items = [
+          ...state.unselected.items,
+          ...action.payload.items,
+        ];
       })
       .addCase(fetchUnselectedPersons.rejected, (state, action) => {
         state.unselected.loading = false;
@@ -69,8 +78,15 @@ const personsSlice = createSlice({
         state.selected.error = null;
       })
       .addCase(fetchSelectedPersons.fulfilled, (state, action) => {
+        const { page, limit } = action.meta.arg;
         state.selected.loading = false;
-        state.selected.items = action.payload;
+        state.selected.page = page;
+        state.selected.limit = limit;
+        state.selected.hasNext = action.payload.hasNext;
+        state.selected.items = [
+          ...state.selected.items,
+          ...action.payload.items,
+        ];
       })
       .addCase(fetchSelectedPersons.rejected, (state, action) => {
         state.selected.loading = false;

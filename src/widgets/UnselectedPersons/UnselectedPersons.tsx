@@ -1,13 +1,17 @@
 import { PersonList } from "@/entities/Person/PersonList";
 import { Window } from "@/entities/Window/Window";
-import { useAppSelector } from "@/store/hooks";
-import { selectUnselectedPersons } from "@/store/persons/personsSelectors";
+import { usePersons } from "@/store/persons/usePersons";
 
 export function UnselectedPersons() {
-  const persons = useAppSelector(selectUnselectedPersons);
+  const { persons, hasNext, loading, handleLoadMore } = usePersons("unselected");
 
   return (
-    <Window title="Unselected">
+    <Window
+      title="Unselected"
+      hasNext={hasNext}
+      loading={loading}
+      onLoadMore={handleLoadMore}
+    >
       <PersonList persons={persons} emptyText="No unselected persons" />
     </Window>
   );
