@@ -1,36 +1,28 @@
 "use client";
-import { getPersons, type Person } from "@/api/persons";
+import { useAppDispatch } from "@/store/hooks";
+import {
+  fetchSelectedPersons,
+  fetchUnselectedPersons,
+} from "@/store/persons/personsSlice";
 import { SelectedPersons } from "@/widgets/SelectedPersons/SelectedPersons";
 import { UnselectedPersons } from "@/widgets/UnselectedPersons/UnselectedPersons";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
 import styles from "./main.module.scss";
 
 export default function Main() {
-  const [persons, setPersons] = useState<Person[]>([]);
-
-  const unselected = useMemo(
-    () => persons.filter((person) => !person.selected),
-    [persons]
-  );
-  const selected = useMemo(
-    () => persons.filter((person) => person.selected),
-    [persons]
-  );
-
-  async function loadPersons() {
-    const data = await getPersons();
-    setPersons(data);
-  }
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    loadPersons();
-  }, []);
+    const params = { page: 1, limit: 20 };
+    dispatch(fetchUnselectedPersons(params));
+    dispatch(fetchSelectedPersons(params));
+  }, [dispatch]);
 
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <UnselectedPersons persons={unselected} />
-        <SelectedPersons persons={selected} />
+        <UnselectedPersons />
+        <SelectedPersons />
       </main>
     </div>
   );

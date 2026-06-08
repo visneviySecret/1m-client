@@ -1,13 +1,12 @@
-import type { Person } from "@/api/persons";
 import { PersonList } from "@/entities/Person/PersonList";
 import { Window } from "@/entities/Window/Window";
+import { useAppSelector } from "@/store/hooks";
+import { selectSelectedPersons } from "@/store/persons/personsSelectors";
 import styles from "./SelectedPersons.module.scss";
 
-type SelectedPersonsProps = {
-  persons: Person[];
-};
+export function SelectedPersons() {
+  const persons = useAppSelector(selectSelectedPersons);
 
-export function SelectedPersons({ persons }: SelectedPersonsProps) {
   return (
     <div className={styles.widget}>
       <Window title="Selected">

@@ -12,7 +12,12 @@ type GetPersonsParams = {
   limit?: number;
 };
 
-export async function getPersons(params: GetPersonsParams = {}) {
-  const { data } = await api.get<Person[]>("/", { params });
+export async function getUnselectedPersons(params: GetPersonsParams = {}) {
+  const { data } = await api.get<Person[]>("/persons/unselected", { params });
+  return data;
+}
+
+export async function getSelectedPersons(params: GetPersonsParams = {}) {
+  const { data } = await api.get<Person[]>("/persons/selected", { params });
   return data;
 }

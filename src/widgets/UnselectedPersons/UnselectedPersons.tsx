@@ -1,13 +1,12 @@
-import type { Person } from "@/api/persons";
 import { PersonList } from "@/entities/Person/PersonList";
 import { Window } from "@/entities/Window/Window";
+import { useAppSelector } from "@/store/hooks";
+import { selectUnselectedPersons } from "@/store/persons/personsSelectors";
 import styles from "./UnselectedPersons.module.scss";
 
-type UnselectedPersonsProps = {
-  persons: Person[];
-};
+export function UnselectedPersons() {
+  const persons = useAppSelector(selectUnselectedPersons);
 
-export function UnselectedPersons({ persons }: UnselectedPersonsProps) {
   return (
     <div className={styles.widget}>
       <Window title="Unselected">
