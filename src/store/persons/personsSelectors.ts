@@ -35,9 +35,3 @@ export const selectUnselectedFilterId = (state: RootState) =>
 
 export const selectSelectedFilterId = (state: RootState) =>
   state.persons.selected.filterId;
-
-export const selectSelectedSortOrder = (state: RootState) =>
-  state.persons.selected.sortOrder;
-
-export const selectUnselectedSortOrder = (state: RootState) =>
-  state.persons.unselected.sortOrder;

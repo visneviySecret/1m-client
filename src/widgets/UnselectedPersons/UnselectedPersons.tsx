@@ -2,7 +2,6 @@ import { PersonList } from "@/entities/Person/PersonList";
 import { Window } from "@/entities/Window/Window";
 import { AddPerson } from "@/features/AddPerson/AddPerson";
 import { Filter } from "@/features/Filter/Filter";
-import { SortPersons } from "@/features/SortPersons/SortPersons";
 import { usePersons } from "@/store/persons/usePersons";
 
 export function UnselectedPersons() {
@@ -12,7 +11,6 @@ export function UnselectedPersons() {
   return (
     <Window
       title="Unselected"
-      headerAction={<SortPersons kind="unselected" />}
       filter={<Filter kind="unselected" />}
       addPerson={<AddPerson />}
       hasNext={hasNext}

@@ -9,14 +9,12 @@ import {
   selectSelectedLoading,
   selectSelectedPage,
   selectSelectedPersons,
-  selectSelectedSortOrder,
   selectUnselectedFilterId,
   selectUnselectedHasNext,
   selectUnselectedLimit,
   selectUnselectedLoading,
   selectUnselectedPage,
   selectUnselectedPersons,
-  selectUnselectedSortOrder,
 } from "../personsSelectors";
 
 export type PersonsKind = "selected" | "unselected";
@@ -29,7 +27,6 @@ export const personsConfig = {
     selectPage: selectSelectedPage,
     selectLimit: selectSelectedLimit,
     selectFilterId: selectSelectedFilterId,
-    selectSortOrder: selectSelectedSortOrder,
     fetchPersons: fetchSelectedPersons,
   },
   unselected: {
@@ -39,7 +36,6 @@ export const personsConfig = {
     selectPage: selectUnselectedPage,
     selectLimit: selectUnselectedLimit,
     selectFilterId: selectUnselectedFilterId,
-    selectSortOrder: selectUnselectedSortOrder,
     fetchPersons: fetchUnselectedPersons,
   },
 } as const;

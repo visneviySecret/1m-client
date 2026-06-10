@@ -13,7 +13,6 @@ export function usePersons(kind: PersonsKind) {
   const page = useAppSelector(config.selectPage);
   const limit = useAppSelector(config.selectLimit);
   const filterId = useAppSelector(config.selectFilterId);
-  const sortOrder = useAppSelector(config.selectSortOrder);
 
   const handleLoadMore = () => {
     if (loading || !hasNext) {
@@ -25,7 +24,6 @@ export function usePersons(kind: PersonsKind) {
         page: page + 1,
         limit,
         id: normalizeIdFilter(filterId),
-        sort: sortOrder,
       })
     );
   };

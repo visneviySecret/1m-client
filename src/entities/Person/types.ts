@@ -10,19 +10,16 @@ export type PersonsPage = {
   hasNext: boolean;
 };
 
-export type SortOrder = "asc" | "desc";
-
 export type PersonsQueryParams = {
   page?: number;
   limit?: number;
   id?: string;
-  sort?: SortOrder;
 };
 
 export type FetchPersonsParams = Required<
   Pick<PersonsQueryParams, "page" | "limit">
 > &
-  Pick<PersonsQueryParams, "id" | "sort">;
+  Pick<PersonsQueryParams, "id">;
 
 export type CreatePersonParams = {
   id: string;
