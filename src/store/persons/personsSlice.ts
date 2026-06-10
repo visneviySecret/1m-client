@@ -2,8 +2,8 @@ import {
   createPerson as createPersonRequest,
   getSelectedPersons,
   getUnselectedPersons,
+  updatePersonSelected as updatePersonSelectedRequest,
 } from "@/api/persons";
-import { getRequestErrorMessage } from "@/share/lib/getRequestErrorMessage";
 import type { FetchPersonsParams, Person } from "@/entities/Person/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
@@ -53,16 +53,40 @@ export const fetchSelectedPersons = createAsyncThunk(
 
 export const addPerson = createAsyncThunk(
   "persons/addPerson",
-  async (id: number, { rejectWithValue }) => {
-    try {
-      return await createPersonRequest({ id });
-    } catch (error) {
-      return rejectWithValue(
-        getRequestErrorMessage(error, `Failed to add person with id ${id}`)
-      );
-    }
+  async (id: number) => {
+    return createPersonRequest({ id });
   }
 );
+
+export const togglePersonSelected = createAsyncThunk(
+  "persons/togglePersonSelected",
+  async (person: Person) => {
+    return updatePersonSelectedRequest({
+      id: person.id,
+      selected: !person.selected,
+    });
+  }
+);
+
+function sortPersonsById(persons: Person[]) {
+  return [...persons].sort((left, right) => left.id - right.id);
+}
+
+function movePersonBetweenLists(state: PersonsState, person: Person) {
+  state.unselected.items = state.unselected.items.filter(
+    (item) => item.id !== person.id
+  );
+  state.selected.items = state.selected.items.filter(
+    (item) => item.id !== person.id
+  );
+
+  if (person.selected) {
+    state.selected.items = sortPersonsById([...state.selected.items, person]);
+    return;
+  }
+
+  state.unselected.items = sortPersonsById([...state.unselected.items, person]);
+}
 
 const personsSlice = createSlice({
   name: "persons",
@@ -121,6 +145,17 @@ const personsSlice = createSlice({
       })
       .addCase(addPerson.rejected, (state, action) => {
         state.unselected.error = action.error.message ?? "Failed to add person";
+      })
+      .addCase(togglePersonSelected.pending, (state, action) => {
+        const person = action.meta.arg;
+
+        movePersonBetweenLists(state, {
+          ...person,
+          selected: !person.selected,
+        });
+      })
+      .addCase(togglePersonSelected.rejected, (state, action) => {
+        movePersonBetweenLists(state, action.meta.arg);
       });
   },
 });

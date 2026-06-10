@@ -19,7 +19,13 @@ export function getRequestErrorMessage(
     }
   }
 
-  if (error instanceof Error && error.message) {
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    typeof error.message === "string" &&
+    error.message
+  ) {
     return error.message;
   }
 

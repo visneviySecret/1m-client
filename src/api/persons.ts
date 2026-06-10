@@ -3,11 +3,14 @@ import type {
   Person,
   PersonsPage,
   PersonsQueryParams,
+  UpdatePersonSelectedParams,
 } from "@/entities/Person/types";
 import { api } from "./config";
 
 export async function getUnselectedPersons(params: PersonsQueryParams = {}) {
-  const { data } = await api.get<PersonsPage>("/persons/unselected", { params });
+  const { data } = await api.get<PersonsPage>("/persons/unselected", {
+    params,
+  });
   return data;
 }
 
@@ -18,5 +21,10 @@ export async function getSelectedPersons(params: PersonsQueryParams = {}) {
 
 export async function createPerson(params: CreatePersonParams) {
   const { data } = await api.post<Person>("/persons", params);
+  return data;
+}
+
+export async function updatePersonSelected(params: UpdatePersonSelectedParams) {
+  const { data } = await api.patch<Person>(`/persons/${params.id}`, params);
   return data;
 }

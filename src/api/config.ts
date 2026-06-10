@@ -1,3 +1,4 @@
+import { getRequestErrorMessage } from "@/share/lib/getRequestErrorMessage";
 import axios from "axios";
 
 export const api = axios.create({
@@ -8,6 +9,6 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error(error);
-    return Promise.reject(error);
+    return Promise.reject(new Error(getRequestErrorMessage(error)));
   }
 );

@@ -45,12 +45,7 @@ export function useAddPerson() {
       ).unwrap();
       getNotyf().success(`Person with id ${id} added`);
     } catch (error) {
-      const message = getRequestErrorMessage(
-        error,
-        `Failed to add person with id ${id}`
-      );
-
-      getNotyf().error(message);
+      getNotyf().error(getRequestErrorMessage(error));
     } finally {
       setSubmitting(false);
     }

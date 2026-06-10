@@ -5,7 +5,8 @@ import { Filter } from "@/features/Filter/Filter";
 import { usePersons } from "@/store/persons/usePersons";
 
 export function UnselectedPersons() {
-  const { persons, hasNext, loading, handleLoadMore } = usePersons("unselected");
+  const { persons, hasNext, loading, handleLoadMore, handlePersonClick } =
+    usePersons("unselected");
 
   return (
     <Window
@@ -16,7 +17,11 @@ export function UnselectedPersons() {
       loading={loading}
       onLoadMore={handleLoadMore}
     >
-      <PersonList persons={persons} emptyText="No unselected persons" />
+      <PersonList
+        persons={persons}
+        emptyText="No unselected persons"
+        onPersonClick={handlePersonClick}
+      />
     </Window>
   );
 }

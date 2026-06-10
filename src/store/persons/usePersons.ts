@@ -1,6 +1,7 @@
 import { parseFilterId } from "@/share/lib/parseFilterId";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchSelectedPersons, fetchUnselectedPersons } from "./personsSlice";
+import type { Person } from "@/entities/Person/types";
+import { fetchSelectedPersons, fetchUnselectedPersons, togglePersonSelected } from "./personsSlice";
 import {
   selectSelectedFilterId,
   selectSelectedHasNext,
@@ -63,10 +64,15 @@ export function usePersons(kind: PersonsKind) {
     );
   };
 
+  const handlePersonClick = (person: Person) => {
+    dispatch(togglePersonSelected(person));
+  };
+
   return {
     persons,
     hasNext,
     loading,
     handleLoadMore,
+    handlePersonClick,
   };
 }

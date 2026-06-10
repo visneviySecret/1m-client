@@ -24,3 +24,8 @@ export type FetchPersonsParams = Required<
 export type CreatePersonParams = {
   id: number;
 };
+
+export type UpdatePersonSelectedParams = {
+  id: number;
+  selected: boolean;
+};

@@ -4,7 +4,8 @@ import { Filter } from "@/features/Filter/Filter";
 import { usePersons } from "@/store/persons/usePersons";
 
 export function SelectedPersons() {
-  const { persons, hasNext, loading, handleLoadMore } = usePersons("selected");
+  const { persons, hasNext, loading, handleLoadMore, handlePersonClick } =
+    usePersons("selected");
 
   return (
     <Window
@@ -14,7 +15,11 @@ export function SelectedPersons() {
       loading={loading}
       onLoadMore={handleLoadMore}
     >
-      <PersonList persons={persons} emptyText="No selected persons" />
+      <PersonList
+        persons={persons}
+        emptyText="No selected persons"
+        onPersonClick={handlePersonClick}
+      />
     </Window>
   );
 }
