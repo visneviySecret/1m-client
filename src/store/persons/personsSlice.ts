@@ -1,8 +1,5 @@
-import {
-  getSelectedPersons,
-  getUnselectedPersons,
-  type Person,
-} from "@/api/persons";
+import { getSelectedPersons, getUnselectedPersons } from "@/api/persons";
+import type { FetchPersonsParams, Person } from "@/entities/Person/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 type PersonsListState = {
@@ -35,15 +32,15 @@ const initialState: PersonsState = {
 
 export const fetchUnselectedPersons = createAsyncThunk(
   "persons/fetchUnselectedPersons",
-  async ({ page, limit }: { page: number; limit: number }) => {
-    return getUnselectedPersons({ page, limit });
+  async (params: FetchPersonsParams) => {
+    return getUnselectedPersons(params);
   }
 );
 
 export const fetchSelectedPersons = createAsyncThunk(
   "persons/fetchSelectedPersons",
-  async ({ page, limit }: { page: number; limit: number }) => {
-    return getSelectedPersons({ page, limit });
+  async (params: FetchPersonsParams) => {
+    return getSelectedPersons(params);
   }
 );
 
@@ -63,10 +60,10 @@ const personsSlice = createSlice({
         state.unselected.page = page;
         state.unselected.limit = limit;
         state.unselected.hasNext = action.payload.hasNext;
-        state.unselected.items = [
-          ...state.unselected.items,
-          ...action.payload.items,
-        ];
+        state.unselected.items =
+          page === 1
+            ? action.payload.items
+            : [...state.unselected.items, ...action.payload.items];
       })
       .addCase(fetchUnselectedPersons.rejected, (state, action) => {
         state.unselected.loading = false;
@@ -83,10 +80,10 @@ const personsSlice = createSlice({
         state.selected.page = page;
         state.selected.limit = limit;
         state.selected.hasNext = action.payload.hasNext;
-        state.selected.items = [
-          ...state.selected.items,
-          ...action.payload.items,
-        ];
+        state.unselected.items =
+          page === 1
+            ? action.payload.items
+            : [...state.unselected.items, ...action.payload.items];
       })
       .addCase(fetchSelectedPersons.rejected, (state, action) => {
         state.selected.loading = false;

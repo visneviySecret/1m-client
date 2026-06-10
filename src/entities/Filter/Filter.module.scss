@@ -1,0 +1,22 @@
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--primary-light);
+  background: var(--background);
+  color: var(--foreground);
+  font: inherit;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}

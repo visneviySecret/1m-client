@@ -1,4 +1,4 @@
-import type { Person } from "@/api/persons";
+import type { Person } from "@/entities/Person/types.ts";
 import styles from "./PersonList.module.scss";
 
 type PersonListProps = {
@@ -13,7 +13,7 @@ export function PersonList({ persons, emptyText }: PersonListProps) {
 
   return persons.map((person) => (
     <div key={person.id} className={styles.item}>
-      {person.name} · {person.age}
+      {person.id} · {person.name} · {person.age}
     </div>
   ));
 }
