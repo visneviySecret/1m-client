@@ -1,36 +1,15 @@
 import { debounce } from "@/share/lib/debounce";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {
-  fetchSelectedPersons,
-  fetchUnselectedPersons,
-  setFilterId,
-} from "@/store/persons/personsSlice";
-import {
-  selectSelectedFilterId,
-  selectSelectedLimit,
-  selectUnselectedFilterId,
-  selectUnselectedLimit,
-} from "@/store/persons/personsSelectors";
-import { useCallback, useMemo } from "react";
 import { normalizeIdFilter } from "@/share/lib/parseFilterId";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { personsConfig } from "@/store/persons/config/personsConfig";
+import { fetchPersons, setFilterId } from "@/store/persons/personsSlice";
+import type { PersonsKind } from "@/store/persons/types";
+import { useCallback, useMemo } from "react";
 
-export type PersonsKind = "selected" | "unselected";
-
-const filterConfig = {
-  selected: {
-    selectFilterId: selectSelectedFilterId,
-    selectLimit: selectSelectedLimit,
-    fetchPersons: fetchSelectedPersons,
-  },
-  unselected: {
-    selectFilterId: selectUnselectedFilterId,
-    selectLimit: selectUnselectedLimit,
-    fetchPersons: fetchUnselectedPersons,
-  },
-} as const;
+export type { PersonsKind };
 
 export function useFilter(kind: PersonsKind) {
-  const config = filterConfig[kind];
+  const config = personsConfig[kind];
   const dispatch = useAppDispatch();
   const filterId = useAppSelector(config.selectFilterId);
   const limit = useAppSelector(config.selectLimit);
@@ -38,14 +17,15 @@ export function useFilter(kind: PersonsKind) {
   const fetchByFilter = useCallback(
     (nextFilterId: string) => {
       dispatch(
-        config.fetchPersons({
+        fetchPersons({
+          kind: config.kind,
           page: 1,
           limit,
           id: normalizeIdFilter(nextFilterId),
         })
       );
     },
-    [config.fetchPersons, dispatch, limit]
+    [config.kind, dispatch, limit]
   );
 
   const debouncedFetchByFilter = useMemo(

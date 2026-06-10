@@ -3,6 +3,7 @@ import type {
   Person,
   PersonsPage,
   PersonsQueryParams,
+  ReorderSelectedPersonsParams,
   UpdatePersonSelectedParams,
 } from "@/entities/Person/types";
 import { api } from "./config";
@@ -27,4 +28,10 @@ export async function createPerson(params: CreatePersonParams) {
 export async function updatePersonSelected(params: UpdatePersonSelectedParams) {
   const { data } = await api.patch<Person>(`/persons/${params.id}`, params);
   return data;
+}
+
+export async function reorderSelectedPersons(
+  params: ReorderSelectedPersonsParams
+) {
+  await api.put("/persons/selected/order", params);
 }

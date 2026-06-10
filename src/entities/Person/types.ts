@@ -29,3 +29,7 @@ export type UpdatePersonSelectedParams = {
   id: number;
   selected: boolean;
 };
+
+export type ReorderSelectedPersonsParams = {
+  ids: number[];
+};

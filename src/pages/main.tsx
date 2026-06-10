@@ -1,9 +1,6 @@
 "use client";
 import { useAppDispatch } from "@/store/hooks";
-import {
-  fetchSelectedPersons,
-  fetchUnselectedPersons,
-} from "@/store/persons/personsSlice";
+import { fetchPersons } from "@/store/persons/personsSlice";
 import { SelectedPersons } from "@/widgets/SelectedPersons/SelectedPersons";
 import { UnselectedPersons } from "@/widgets/UnselectedPersons/UnselectedPersons";
 import { useEffect } from "react";
@@ -14,8 +11,8 @@ export default function Main() {
 
   useEffect(() => {
     const params = { page: 1, limit: 20 };
-    dispatch(fetchUnselectedPersons(params));
-    dispatch(fetchSelectedPersons(params));
+    dispatch(fetchPersons({ ...params, kind: "unselected" }));
+    dispatch(fetchPersons({ ...params, kind: "selected" }));
   }, [dispatch]);
 
   return (

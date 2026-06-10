@@ -1,0 +1,15 @@
+.item {
+  cursor: grab;
+}
+
+.item:active {
+  cursor: grabbing;
+}
+
+.dragging {
+  opacity: 0.5;
+}
+
+.dropTarget {
+  background-color: color-mix(in srgb, var(--primary-light) 60%, transparent);
+}

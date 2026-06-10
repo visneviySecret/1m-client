@@ -1,7 +1,7 @@
 import { normalizeIdFilter } from "@/share/lib/parseFilterId";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import type { Person } from "@/entities/Person/types";
-import { togglePersonSelected } from "./personsSlice";
+import { fetchPersons, togglePersonSelected } from "./personsSlice";
 import { personsConfig, type PersonsKind } from "./config/personsConfig";
 
 export function usePersons(kind: PersonsKind) {
@@ -20,7 +20,8 @@ export function usePersons(kind: PersonsKind) {
     }
 
     dispatch(
-      config.fetchPersons({
+      fetchPersons({
+        kind: config.kind,
         page: page + 1,
         limit,
         id: normalizeIdFilter(filterId),

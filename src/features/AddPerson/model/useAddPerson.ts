@@ -2,10 +2,7 @@ import { getRequestErrorMessage } from "@/share/lib/getRequestErrorMessage";
 import { getNotyf } from "@/share/lib/notyf";
 import { normalizeIdFilter } from "@/share/lib/parseFilterId";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {
-  addPerson,
-  fetchUnselectedPersons,
-} from "@/store/persons/personsSlice";
+import { addPerson, fetchPersons } from "@/store/persons/personsSlice";
 import {
   selectUnselectedFilterId,
   selectUnselectedLimit,
@@ -37,7 +34,8 @@ export function useAddPerson() {
       await dispatch(addPerson(id)).unwrap();
       setPersonId("");
       await dispatch(
-        fetchUnselectedPersons({
+        fetchPersons({
+          kind: "unselected",
           page: 1,
           limit,
           id: normalizeIdFilter(filterId),
