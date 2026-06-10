@@ -53,7 +53,7 @@ export const fetchSelectedPersons = createAsyncThunk(
 
 export const addPerson = createAsyncThunk(
   "persons/addPerson",
-  async (id: number) => {
+  async (id: string) => {
     return createPersonRequest({ id });
   }
 );

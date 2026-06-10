@@ -1,6 +1,6 @@
 import { getRequestErrorMessage } from "@/share/lib/getRequestErrorMessage";
 import { getNotyf } from "@/share/lib/notyf";
-import { parseFilterId } from "@/share/lib/parseFilterId";
+import { normalizeIdFilter } from "@/share/lib/parseFilterId";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   addPerson,
@@ -20,14 +20,14 @@ export function useAddPerson() {
   const [submitting, setSubmitting] = useState(false);
 
   const apply = async () => {
-    const id = parseFilterId(personId);
+    const id = normalizeIdFilter(personId);
 
     if (submitting) {
       return;
     }
 
-    if (id === undefined) {
-      getNotyf().error("Enter a valid person id");
+    if (!id) {
+      getNotyf().error("Enter a person id");
       return;
     }
 
@@ -40,7 +40,7 @@ export function useAddPerson() {
         fetchUnselectedPersons({
           page: 1,
           limit,
-          id: parseFilterId(filterId),
+          id: normalizeIdFilter(filterId),
         })
       ).unwrap();
       getNotyf().success(`Person with id ${id} added`);

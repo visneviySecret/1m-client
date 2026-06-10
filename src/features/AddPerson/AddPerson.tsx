@@ -13,7 +13,7 @@ export function AddPerson() {
       }}
     >
       <input
-        type="number"
+        type="text"
         value={personId}
         onChange={(event) => setPersonId(event.target.value)}
         placeholder="New person id"

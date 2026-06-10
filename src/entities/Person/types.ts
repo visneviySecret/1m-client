@@ -13,7 +13,7 @@ export type PersonsPage = {
 export type PersonsQueryParams = {
   page?: number;
   limit?: number;
-  id?: number;
+  id?: string;
 };
 
 export type FetchPersonsParams = Required<
@@ -22,7 +22,7 @@ export type FetchPersonsParams = Required<
   Pick<PersonsQueryParams, "id">;
 
 export type CreatePersonParams = {
-  id: number;
+  id: string;
 };
 
 export type UpdatePersonSelectedParams = {

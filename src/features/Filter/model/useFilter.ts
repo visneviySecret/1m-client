@@ -12,7 +12,7 @@ import {
   selectUnselectedLimit,
 } from "@/store/persons/personsSelectors";
 import { useCallback, useMemo } from "react";
-import { parseFilterId } from "@/share/lib/parseFilterId";
+import { normalizeIdFilter } from "@/share/lib/parseFilterId";
 
 export type PersonsKind = "selected" | "unselected";
 
@@ -41,7 +41,7 @@ export function useFilter(kind: PersonsKind) {
         config.fetchPersons({
           page: 1,
           limit,
-          id: parseFilterId(nextFilterId),
+          id: normalizeIdFilter(nextFilterId),
         })
       );
     },

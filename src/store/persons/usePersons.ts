@@ -1,4 +1,4 @@
-import { parseFilterId } from "@/share/lib/parseFilterId";
+import { normalizeIdFilter } from "@/share/lib/parseFilterId";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import type { Person } from "@/entities/Person/types";
 import { fetchSelectedPersons, fetchUnselectedPersons, togglePersonSelected } from "./personsSlice";
@@ -59,7 +59,7 @@ export function usePersons(kind: PersonsKind) {
       config.fetchPersons({
         page: page + 1,
         limit,
-        id: parseFilterId(filterId),
+        id: normalizeIdFilter(filterId),
       })
     );
   };
