@@ -5,6 +5,8 @@
   min-height: 0;
   max-height: 100vh;
   width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
   background: var(--background);
 }
 
