@@ -4,7 +4,11 @@ import {
   getUnselectedPersons,
   updatePersonSelected as updatePersonSelectedRequest,
 } from "@/api/persons";
-import type { FetchPersonsParams, Person } from "@/entities/Person/types";
+import type {
+  FetchPersonsParams,
+  Person,
+  SortOrder,
+} from "@/entities/Person/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 type PersonsListState = {
@@ -15,6 +19,7 @@ type PersonsListState = {
   loading: boolean;
   error: string | null;
   filterId: string;
+  sortOrder: SortOrder;
 };
 
 type PersonsState = {
@@ -30,6 +35,7 @@ const createInitialListState = (): PersonsListState => ({
   loading: false,
   error: null,
   filterId: "",
+  sortOrder: "asc",
 });
 
 const initialState: PersonsState = {
@@ -68,8 +74,10 @@ export const togglePersonSelected = createAsyncThunk(
   }
 );
 
-function sortPersonsById(persons: Person[]) {
-  return [...persons].sort((left, right) => left.id - right.id);
+function sortPersonsById(persons: Person[], sortOrder: SortOrder) {
+  return [...persons].sort((left, right) =>
+    sortOrder === "asc" ? left.id - right.id : right.id - left.id
+  );
 }
 
 function movePersonBetweenLists(state: PersonsState, person: Person) {
@@ -81,11 +89,17 @@ function movePersonBetweenLists(state: PersonsState, person: Person) {
   );
 
   if (person.selected) {
-    state.selected.items = sortPersonsById([...state.selected.items, person]);
+    state.selected.items = sortPersonsById(
+      [...state.selected.items, person],
+      state.selected.sortOrder
+    );
     return;
   }
 
-  state.unselected.items = sortPersonsById([...state.unselected.items, person]);
+  state.unselected.items = sortPersonsById(
+    [...state.unselected.items, person],
+    state.unselected.sortOrder
+  );
 }
 
 const personsSlice = createSlice({
@@ -99,6 +113,14 @@ const personsSlice = createSlice({
       }
     ) => {
       state[action.payload.kind].filterId = action.payload.filterId;
+    },
+    setSortOrder: (
+      state,
+      action: {
+        payload: { kind: keyof PersonsState; sortOrder: SortOrder };
+      }
+    ) => {
+      state[action.payload.kind].sortOrder = action.payload.sortOrder;
     },
   },
   extraReducers: (builder) => {
@@ -160,6 +182,6 @@ const personsSlice = createSlice({
   },
 });
 
-export const { setFilterId } = personsSlice.actions;
+export const { setFilterId, setSortOrder } = personsSlice.actions;
 
 export default personsSlice.reducer;

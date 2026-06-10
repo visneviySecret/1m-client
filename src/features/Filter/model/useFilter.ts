@@ -8,8 +8,10 @@ import {
 import {
   selectSelectedFilterId,
   selectSelectedLimit,
+  selectSelectedSortOrder,
   selectUnselectedFilterId,
   selectUnselectedLimit,
+  selectUnselectedSortOrder,
 } from "@/store/persons/personsSelectors";
 import { useCallback, useMemo } from "react";
 import { normalizeIdFilter } from "@/share/lib/parseFilterId";
@@ -20,11 +22,13 @@ const filterConfig = {
   selected: {
     selectFilterId: selectSelectedFilterId,
     selectLimit: selectSelectedLimit,
+    selectSortOrder: selectSelectedSortOrder,
     fetchPersons: fetchSelectedPersons,
   },
   unselected: {
     selectFilterId: selectUnselectedFilterId,
     selectLimit: selectUnselectedLimit,
+    selectSortOrder: selectUnselectedSortOrder,
     fetchPersons: fetchUnselectedPersons,
   },
 } as const;
@@ -34,6 +38,7 @@ export function useFilter(kind: PersonsKind) {
   const dispatch = useAppDispatch();
   const filterId = useAppSelector(config.selectFilterId);
   const limit = useAppSelector(config.selectLimit);
+  const sortOrder = useAppSelector(config.selectSortOrder);
 
   const fetchByFilter = useCallback(
     (nextFilterId: string) => {
@@ -42,10 +47,11 @@ export function useFilter(kind: PersonsKind) {
           page: 1,
           limit,
           id: normalizeIdFilter(nextFilterId),
+          sort: sortOrder,
         })
       );
     },
-    [config.fetchPersons, dispatch, limit]
+    [config.fetchPersons, dispatch, limit, sortOrder]
   );
 
   const debouncedFetchByFilter = useMemo(

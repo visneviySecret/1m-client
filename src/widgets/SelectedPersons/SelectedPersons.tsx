@@ -1,6 +1,7 @@
 import { PersonList } from "@/entities/Person/PersonList";
 import { Window } from "@/entities/Window/Window";
 import { Filter } from "@/features/Filter/Filter";
+import { SortPersons } from "@/features/SortPersons/SortPersons";
 import { usePersons } from "@/store/persons/usePersons";
 
 export function SelectedPersons() {
@@ -10,6 +11,7 @@ export function SelectedPersons() {
   return (
     <Window
       title="Selected"
+      headerAction={<SortPersons kind="selected" />}
       filter={<Filter kind="selected" />}
       hasNext={hasNext}
       loading={loading}

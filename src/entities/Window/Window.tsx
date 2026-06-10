@@ -9,6 +9,7 @@ type WindowProps = {
   title: string;
   children: ReactNode;
   filter?: ReactNode;
+  headerAction?: ReactNode;
   addPerson?: ReactNode;
   hasNext: boolean;
   loading: boolean;
@@ -19,6 +20,7 @@ export function Window({
   title,
   children,
   filter,
+  headerAction,
   addPerson,
   hasNext,
   loading,
@@ -28,7 +30,10 @@ export function Window({
 
   return (
     <section className={styles.window}>
-      <header className={styles.title}>{title}</header>
+      <header className={styles.title}>
+        <span>{title}</span>
+        {headerAction}
+      </header>
       {filter}
       <div ref={contentRef} className={styles.content}>
         {children}
