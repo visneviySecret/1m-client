@@ -20,3 +20,7 @@ export type FetchPersonsParams = Required<
   Pick<PersonsQueryParams, "page" | "limit">
 > &
   Pick<PersonsQueryParams, "id">;
+
+export type CreatePersonParams = {
+  id: number;
+};

@@ -9,6 +9,7 @@ type WindowProps = {
   title: string;
   children: ReactNode;
   filter?: ReactNode;
+  addPerson?: ReactNode;
   hasNext: boolean;
   loading: boolean;
   onLoadMore: () => void;
@@ -18,6 +19,7 @@ export function Window({
   title,
   children,
   filter,
+  addPerson,
   hasNext,
   loading,
   onLoadMore,
@@ -32,6 +34,7 @@ export function Window({
         {children}
         {hasNext && <Loader ref={loaderRef} />}
       </div>
+      {addPerson}
     </section>
   );
 }

@@ -1,4 +1,8 @@
-import { getSelectedPersons, getUnselectedPersons } from "@/api/persons";
+import {
+  createPerson as createPersonRequest,
+  getSelectedPersons,
+  getUnselectedPersons,
+} from "@/api/persons";
 import type { FetchPersonsParams, Person } from "@/entities/Person/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
@@ -43,6 +47,13 @@ export const fetchSelectedPersons = createAsyncThunk(
   "persons/fetchSelectedPersons",
   async (params: FetchPersonsParams) => {
     return getSelectedPersons(params);
+  }
+);
+
+export const addPerson = createAsyncThunk(
+  "persons/addPerson",
+  async (id: number) => {
+    return createPersonRequest({ id });
   }
 );
 
@@ -100,6 +111,9 @@ const personsSlice = createSlice({
         state.selected.loading = false;
         state.selected.error =
           action.error.message ?? "Failed to fetch selected persons";
+      })
+      .addCase(addPerson.rejected, (state, action) => {
+        state.unselected.error = action.error.message ?? "Failed to add person";
       });
   },
 });

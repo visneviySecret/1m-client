@@ -1,0 +1,48 @@
+.form {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--primary-light);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  color: var(--foreground);
+  font: inherit;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.button {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #ffffff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
