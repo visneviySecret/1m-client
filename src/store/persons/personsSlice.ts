@@ -3,6 +3,7 @@ import {
   getSelectedPersons,
   getUnselectedPersons,
 } from "@/api/persons";
+import { getRequestErrorMessage } from "@/share/lib/getRequestErrorMessage";
 import type { FetchPersonsParams, Person } from "@/entities/Person/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
@@ -52,8 +53,14 @@ export const fetchSelectedPersons = createAsyncThunk(
 
 export const addPerson = createAsyncThunk(
   "persons/addPerson",
-  async (id: number) => {
-    return createPersonRequest({ id });
+  async (id: number, { rejectWithValue }) => {
+    try {
+      return await createPersonRequest({ id });
+    } catch (error) {
+      return rejectWithValue(
+        getRequestErrorMessage(error, `Failed to add person with id ${id}`)
+      );
+    }
   }
 );
 

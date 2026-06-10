@@ -1,3 +1,5 @@
+import { getRequestErrorMessage } from "@/share/lib/getRequestErrorMessage";
+import { getNotyf } from "@/share/lib/notyf";
 import { parseFilterId } from "@/share/lib/parseFilterId";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
@@ -20,7 +22,12 @@ export function useAddPerson() {
   const apply = async () => {
     const id = parseFilterId(personId);
 
-    if (id === undefined || submitting) {
+    if (submitting) {
+      return;
+    }
+
+    if (id === undefined) {
+      getNotyf().error("Enter a valid person id");
       return;
     }
 
@@ -36,6 +43,14 @@ export function useAddPerson() {
           id: parseFilterId(filterId),
         })
       ).unwrap();
+      getNotyf().success(`Person with id ${id} added`);
+    } catch (error) {
+      const message = getRequestErrorMessage(
+        error,
+        `Failed to add person with id ${id}`
+      );
+
+      getNotyf().error(message);
     } finally {
       setSubmitting(false);
     }
