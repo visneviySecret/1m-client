@@ -9,6 +9,7 @@ type PersonsListState = {
   hasNext: boolean;
   loading: boolean;
   error: string | null;
+  filterId: string;
 };
 
 type PersonsState = {
@@ -23,6 +24,7 @@ const createInitialListState = (): PersonsListState => ({
   hasNext: true,
   loading: false,
   error: null,
+  filterId: "",
 });
 
 const initialState: PersonsState = {
@@ -47,7 +49,16 @@ export const fetchSelectedPersons = createAsyncThunk(
 const personsSlice = createSlice({
   name: "persons",
   initialState,
-  reducers: {},
+  reducers: {
+    setFilterId: (
+      state,
+      action: {
+        payload: { kind: keyof PersonsState; filterId: string };
+      }
+    ) => {
+      state[action.payload.kind].filterId = action.payload.filterId;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUnselectedPersons.pending, (state) => {
@@ -80,10 +91,10 @@ const personsSlice = createSlice({
         state.selected.page = page;
         state.selected.limit = limit;
         state.selected.hasNext = action.payload.hasNext;
-        state.unselected.items =
+        state.selected.items =
           page === 1
             ? action.payload.items
-            : [...state.unselected.items, ...action.payload.items];
+            : [...state.selected.items, ...action.payload.items];
       })
       .addCase(fetchSelectedPersons.rejected, (state, action) => {
         state.selected.loading = false;
@@ -92,5 +103,7 @@ const personsSlice = createSlice({
       });
   },
 });
+
+export const { setFilterId } = personsSlice.actions;
 
 export default personsSlice.reducer;

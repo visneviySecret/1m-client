@@ -1,15 +1,17 @@
 import styles from "./Filter.module.scss";
+import { useFilter, type PersonsKind } from "./model/useFilter";
 
 type FilterProps = {
-  value: string;
-  onChange: (value: string) => void;
+  kind: PersonsKind;
 };
 
-export function Filter({ value, onChange }: FilterProps) {
+export function Filter({ kind }: FilterProps) {
+  const { filterId, onChange } = useFilter(kind);
+
   return (
     <input
       type="number"
-      value={value}
+      value={filterId}
       onChange={(event) => onChange(event.target.value)}
       placeholder="Filter by id"
       className={styles.input}

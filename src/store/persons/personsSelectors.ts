@@ -29,3 +29,9 @@ export const selectUnselectedLimit = (state: RootState) =>
 
 export const selectSelectedLimit = (state: RootState) =>
   state.persons.selected.limit;
+
+export const selectUnselectedFilterId = (state: RootState) =>
+  state.persons.unselected.filterId;
+
+export const selectSelectedFilterId = (state: RootState) =>
+  state.persons.selected.filterId;

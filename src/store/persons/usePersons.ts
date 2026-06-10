@@ -1,20 +1,20 @@
-import { debounce } from "@/share/lib/debounce";
+import { parseFilterId } from "@/share/lib/parseFilterId";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { useCallback, useMemo, useState } from "react";
 import { fetchSelectedPersons, fetchUnselectedPersons } from "./personsSlice";
 import {
+  selectSelectedFilterId,
   selectSelectedHasNext,
   selectSelectedLimit,
   selectSelectedLoading,
   selectSelectedPage,
   selectSelectedPersons,
+  selectUnselectedFilterId,
   selectUnselectedHasNext,
   selectUnselectedLimit,
   selectUnselectedLoading,
   selectUnselectedPage,
   selectUnselectedPersons,
 } from "./personsSelectors";
-import { parseFilterId } from "./lib/parse";
 
 type PersonsKind = "selected" | "unselected";
 
@@ -25,6 +25,7 @@ const personsConfig = {
     selectLoading: selectSelectedLoading,
     selectPage: selectSelectedPage,
     selectLimit: selectSelectedLimit,
+    selectFilterId: selectSelectedFilterId,
     fetchPersons: fetchSelectedPersons,
   },
   unselected: {
@@ -33,6 +34,7 @@ const personsConfig = {
     selectLoading: selectUnselectedLoading,
     selectPage: selectUnselectedPage,
     selectLimit: selectUnselectedLimit,
+    selectFilterId: selectUnselectedFilterId,
     fetchPersons: fetchUnselectedPersons,
   },
 } as const;
@@ -45,30 +47,7 @@ export function usePersons(kind: PersonsKind) {
   const loading = useAppSelector(config.selectLoading);
   const page = useAppSelector(config.selectPage);
   const limit = useAppSelector(config.selectLimit);
-  const [filterId, setFilterId] = useState("");
-
-  const fetchByFilter = useCallback(
-    (nextFilterId: string) => {
-      dispatch(
-        config.fetchPersons({
-          page: 1,
-          limit,
-          id: parseFilterId(nextFilterId),
-        })
-      );
-    },
-    [config.fetchPersons, dispatch, limit]
-  );
-
-  const debouncedFetchByFilter = useMemo(
-    () => debounce(fetchByFilter, 300),
-    [fetchByFilter]
-  );
-
-  const onFilterIdChange = (value: string) => {
-    setFilterId(value);
-    debouncedFetchByFilter(value);
-  };
+  const filterId = useAppSelector(config.selectFilterId);
 
   const handleLoadMore = () => {
     if (loading || !hasNext) {
@@ -86,8 +65,6 @@ export function usePersons(kind: PersonsKind) {
 
   return {
     persons,
-    filterId,
-    onFilterIdChange,
     hasNext,
     loading,
     handleLoadMore,
