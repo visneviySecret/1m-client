@@ -37,7 +37,7 @@ export function PersonList({
         onClick={itemOnClick ?? (() => onPersonClick(person))}
         {...restItemProps}
       >
-        {person.id} · {person.name} · {person.age}
+        {person.id}
       </div>
     );
   });
