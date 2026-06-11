@@ -8,7 +8,7 @@ type SelectedPersonListProps = {
   persons: Person[];
   emptyText: string;
   onPersonClick: (person: Person) => void;
-  onReorder: (ids: number[]) => void;
+  onReorder: (ids: string[]) => void;
 };
 
 export function SelectedPersonList({

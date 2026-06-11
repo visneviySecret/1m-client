@@ -1,7 +1,7 @@
 import type { Person } from "@/entities/Person/types";
 import type { PersonsState } from "../types";
 
-export function applySelectedOrder(state: PersonsState, ids: number[]) {
+export function applySelectedOrder(state: PersonsState, ids: string[]) {
   const personsMap = new Map(
     state.selected.items.map((person) => [person.id, person])
   );

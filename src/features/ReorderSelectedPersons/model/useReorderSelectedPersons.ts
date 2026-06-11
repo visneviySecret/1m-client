@@ -5,7 +5,7 @@ import { reorderSelectedPersons } from "@/store/persons/personsSlice";
 export function useReorderSelectedPersons(persons: Person[]) {
   const dispatch = useAppDispatch();
 
-  const handleReorder = (ids: number[]) => {
+  const handleReorder = (ids: string[]) => {
     const previousIds = persons.map((person) => person.id);
 
     dispatch(
