@@ -6,7 +6,7 @@ import styles from "../SelectedPersonList.module.scss";
 type UseSelectedPersonDragDropParams = {
   persons: Person[];
   onPersonClick: (person: Person) => void;
-  onReorder: (ids: number[]) => void;
+  onReorder: (ids: string[]) => void;
 };
 
 function reorderPersons(

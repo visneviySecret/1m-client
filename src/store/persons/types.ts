@@ -22,8 +22,8 @@ export type FetchPersonsThunkParams = FetchPersonsParams & {
 };
 
 export type ReorderSelectedPersonsPayload = {
-  ids: number[];
-  previousIds: number[];
+  ids: string[];
+  previousIds: string[];
 };
 
 export type SetFilterIdPayload = {
