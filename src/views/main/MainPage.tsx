@@ -1,12 +1,13 @@
 "use client";
+
 import { useAppDispatch } from "@/store/hooks";
 import { fetchPersons } from "@/store/persons/personsSlice";
 import { SelectedPersons } from "@/widgets/SelectedPersons/SelectedPersons";
 import { UnselectedPersons } from "@/widgets/UnselectedPersons/UnselectedPersons";
 import { useEffect } from "react";
-import styles from "./main.module.scss";
+import styles from "./MainPage.module.scss";
 
-export default function Main() {
+export function MainPage() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {

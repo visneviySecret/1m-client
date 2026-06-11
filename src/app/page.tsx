@@ -1,3 +1,7 @@
 "use client";
 
-export { default } from "@/pages/main";
+import { MainPage } from "@/views/main/MainPage";
+
+export default function Page() {
+  return <MainPage />;
+}
